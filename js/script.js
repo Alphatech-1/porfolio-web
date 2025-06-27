@@ -19,16 +19,20 @@ document.addEventListener('DOMContentLoaded', function() {
         cursor.style.top = e.clientY + 'px';
     });
     
-    // Efecto hover en enlaces y botones
-    const hoverElements = document.querySelectorAll('a, button, .project-card, .skill-card');
+    // Efecto hover en elementos interactivos
+    const hoverElements = document.querySelectorAll('a, button, .project-card, .skill-card, .testimonial-card, .contact-method');
     
     hoverElements.forEach(el => {
         el.addEventListener('mouseenter', () => {
-            cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+            cursor.style.width = '40px';
+            cursor.style.height = '40px';
+            cursor.style.opacity = '0.5';
         });
         
         el.addEventListener('mouseleave', () => {
-            cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+            cursor.style.width = '20px';
+            cursor.style.height = '20px';
+            cursor.style.opacity = '1';
         });
     });
     
@@ -61,6 +65,30 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
+    // Animación de números en estadísticas
+    const statNumbers = document.querySelectorAll('.stat-number');
+    
+    const animateNumbers = () => {
+        statNumbers.forEach(stat => {
+            const target = parseInt(stat.getAttribute('data-count'));
+            const duration = 2000;
+            const step = target / (duration / 16);
+            let current = 0;
+            
+            const updateNumber = () => {
+                current += step;
+                if (current < target) {
+                    stat.textContent = Math.floor(current);
+                    requestAnimationFrame(updateNumber);
+                } else {
+                    stat.textContent = target;
+                }
+            };
+            
+            updateNumber();
+        });
+    };
+    
     // Animaciones al hacer scroll
     const animateOnScroll = function() {
         const elements = document.querySelectorAll('.fade-in');
@@ -72,25 +100,286 @@ document.addEventListener('DOMContentLoaded', function() {
             if (elementPosition < windowHeight - 100) {
                 element.style.opacity = '1';
                 element.style.transform = 'translateY(0)';
+                
+                // Animar números cuando la sección de hero es visible
+                if (element.classList.contains('hero__content')) {
+                    animateNumbers();
+                }
             }
         });
+        
+        // Mostrar/ocultar botón "Volver arriba"
+        const backToTop = document.querySelector('.back-to-top');
+        if (window.scrollY > 300) {
+            backToTop.classList.add('active');
+        } else {
+            backToTop.classList.remove('active');
+        }
     };
     
-    // Ejecutar al cargar y al hacer scroll
-    window.addEventListener('load', animateOnScroll);
-    window.addEventListener('scroll', animateOnScroll);
+    // Filtrado de proyectos
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
     
-    // Cambiar enlace activo al hacer scroll
-    const sections = document.querySelectorAll('section');
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Cambiar botón activo
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            const filter = button.getAttribute('data-filter');
+            
+            // Filtrar proyectos
+            projectCards.forEach(card => {
+                if (filter === 'all' || card.getAttribute('data-category').includes(filter)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+
+    // Galería de imágenes con lightbox
+function initGallery() {
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    const lightbox = document.getElementById('galleryLightbox');
+    const lightboxImg = lightbox.querySelector('.lightbox-image');
+    const lightboxDetails = lightbox.querySelector('.lightbox-details');
+    const lightboxClose = lightbox.querySelector('.lightbox-close');
+    const lightboxPrev = lightbox.querySelector('.lightbox-prev');
+    const lightboxNext = lightbox.querySelector('.lightbox-next');
     
+    let currentIndex = 0;
+    let items = [];
+    
+    // Filtrar galería
+    const filterButtons = document.querySelectorAll('.gallery__filter .filter-btn');
+    
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Cambiar botón activo
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            const filter = button.getAttribute('data-filter');
+            
+            // Filtrar items
+            galleryItems.forEach(item => {
+                if (filter === 'all' || item.getAttribute('data-category').includes(filter)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
+    
+    // Configurar items de galería
+    galleryItems.forEach((item, index) => {
+        items.push(item);
+        
+        const viewBtn = item.querySelector('.gallery-view-btn');
+        
+        viewBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openLightbox(index);
+        });
+        
+        // También permitir click en toda la imagen
+        item.addEventListener('click', () => {
+            openLightbox(index);
+        });
+    });
+    
+    // Abrir lightbox
+    function openLightbox(index) {
+        currentIndex = index;
+        const item = items[currentIndex];
+        const imgSrc = item.querySelector('img').src;
+        const details = item.querySelector('.gallery-details').innerHTML;
+        
+        lightboxImg.src = imgSrc;
+        lightboxImg.alt = item.querySelector('img').alt;
+        lightboxDetails.innerHTML = details;
+        
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    // Cerrar lightbox
+    function closeLightbox() {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    
+    // Navegación
+    function showPrev() {
+        currentIndex = (currentIndex - 1 + items.length) % items.length;
+        openLightbox(currentIndex);
+    }
+    
+    function showNext() {
+        currentIndex = (currentIndex + 1) % items.length;
+        openLightbox(currentIndex);
+    }
+    
+    // Event listeners
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxPrev.addEventListener('click', showPrev);
+    lightboxNext.addEventListener('click', showNext);
+    
+    // Cerrar al hacer click fuera
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
+    
+    // Navegación con teclado
+    document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('active')) return;
+        
+        if (e.key === 'Escape') {
+            closeLightbox();
+        } else if (e.key === 'ArrowLeft') {
+            showPrev();
+        } else if (e.key === 'ArrowRight') {
+            showNext();
+        }
+    });
+}
+
+// Inicializar galería cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', initGallery);
+    
+    // Efecto de partículas
+    if (document.getElementById('particles-js')) {
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 80,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: "#ff7b25"
+                },
+                shape: {
+                    type: "circle",
+                    stroke: {
+                        width: 0,
+                        color: "#000000"
+                    },
+                    polygon: {
+                        nb_sides: 5
+                    }
+                },
+                opacity: {
+                    value: 0.5,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 2,
+                        size_min: 0.1,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#ff7b25",
+                    opacity: 0.3,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                    attract: {
+                        enable: true,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: "grab"
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: "push"
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 140,
+                        line_linked: {
+                            opacity: 0.7
+                        }
+                    },
+                    bubble: {
+                        distance: 400,
+                        size: 40,
+                        duration: 2,
+                        opacity: 8,
+                        speed: 3
+                    },
+                    repulse: {
+                        distance: 200,
+                        duration: 0.4
+                    },
+                    push: {
+                        particles_nb: 4
+                    },
+                    remove: {
+                        particles_nb: 2
+                    }
+                }
+            },
+            retina_detect: true
+        });
+    }
+    
+    // Cambiar header al hacer scroll
     window.addEventListener('scroll', function() {
+        const header = document.querySelector('.header');
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+        
+        // Actualizar enlace activo al hacer scroll
+        const sections = document.querySelectorAll('section');
         let current = '';
         
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
             const sectionHeight = section.clientHeight;
             
-            if (pageYOffset >= (sectionTop - 100)) {
+            if (pageYOffset >= (sectionTop - 150)) {
                 current = section.getAttribute('id');
             }
         });
@@ -103,31 +392,61 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Validación del formulario de contacto
-    const contactForm = document.querySelector('.contact__form');
+    // Ejecutar al cargar y al hacer scroll
+    window.addEventListener('load', animateOnScroll);
+    window.addEventListener('scroll', animateOnScroll);
+    
+    // Formulario de contacto
+    const contactForm = document.getElementById('contactForm');
     
     if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
+        contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const name = this.querySelector('#name').value.trim();
-            const email = this.querySelector('#email').value.trim();
-            const message = this.querySelector('#message').value.trim();
+            const formData = new FormData(this);
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.innerHTML;
+            
+            // Mostrar estado de carga
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+            submitButton.disabled = true;
+            
+            try {
+                // Simular envío (en producción, reemplazar con fetch real)
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // Mostrar mensaje de éxito
+                alert('¡Mensaje enviado con éxito! Me pondré en contacto contigo pronto.');
+                this.reset();
+            } catch (error) {
+                alert('Error al enviar el mensaje. Por favor, inténtalo de nuevo más tarde.');
+            } finally {
+                submitButton.innerHTML = originalButtonText;
+                submitButton.disabled = false;
+            }
+        });
+    }
+
+
+    
+    
+    // Newsletter
+    const newsletterForm = document.querySelector('.newsletter-form');
+    
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const emailInput = this.querySelector('input[type="email"]');
             
             // Validación simple
-            if (!name || !email || !message) {
-                alert('Por favor completa todos los campos');
-                return;
-            }
-            
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            if (!emailInput.value || !emailInput.value.includes('@')) {
                 alert('Por favor ingresa un correo electrónico válido');
                 return;
             }
             
-            // Simular envío (en un caso real, aquí iría la llamada AJAX)
-            alert('Mensaje enviado con éxito. ¡Gracias!');
-            this.reset();
+            // Simular suscripción
+            alert(`Gracias por suscribirte con ${emailInput.value}. Te mantendremos informado.`);
+            emailInput.value = '';
         });
     }
 });
