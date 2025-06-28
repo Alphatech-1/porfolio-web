@@ -435,36 +435,44 @@ document.addEventListener('DOMContentLoaded', initGallery);
     window.addEventListener('load', animateOnScroll);
     window.addEventListener('scroll', animateOnScroll);
     
-    // Formulario de contacto
-    const contactForm = document.getElementById('contactForm');
-    
-    if (contactForm) {
-        contactForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
+    // Formulario de contacto con Formspree
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+    contactForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const submitButton = this.querySelector('button[type="submit"]');
+        const originalButtonText = submitButton.innerHTML;
+        
+        // Mostrar estado de carga
+        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+        submitButton.disabled = true;
+        
+        try {
             const formData = new FormData(this);
-            const submitButton = this.querySelector('button[type="submit"]');
-            const originalButtonText = submitButton.innerHTML;
+            const response = await fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
             
-            // Mostrar estado de carga
-            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
-            submitButton.disabled = true;
-            
-            try {
-                // Simular envío (en producción, reemplazar con fetch real)
-                await new Promise(resolve => setTimeout(resolve, 1500));
-                
+            if (response.ok) {
                 // Mostrar mensaje de éxito
                 alert('¡Mensaje enviado con éxito! Me pondré en contacto contigo pronto.');
                 this.reset();
-            } catch (error) {
-                alert('Error al enviar el mensaje. Por favor, inténtalo de nuevo más tarde.');
-            } finally {
-                submitButton.innerHTML = originalButtonText;
-                submitButton.disabled = false;
+            } else {
+                throw new Error('Error en el envío');
             }
-        });
-    }
+        } catch (error) {
+            alert('Error al enviar el mensaje. Por favor, inténtalo de nuevo más tarde.');
+        } finally {
+            submitButton.innerHTML = originalButtonText;
+            submitButton.disabled = false;
+        }
+    });
+}
 
 
     
