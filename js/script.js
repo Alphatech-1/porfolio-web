@@ -250,6 +250,51 @@ function initGallery() {
     });
 }
 
+
+
+    const rocketCursor = document.querySelector('.rocket-cursor');
+  
+  // Mover el cohete con el mouse
+  document.addEventListener('mousemove', (e) => {
+    rocketCursor.style.left = e.clientX + 'px';
+    rocketCursor.style.top = e.clientY + 'px';
+    
+    // Efecto de inclinación al mover rápido
+    const velocityX = e.movementX;
+    const velocityY = e.movementY;
+    const tilt = Math.min(Math.max(velocityX * 0.3, -15), 15);
+    
+    rocketCursor.style.transform = `translate(-50%, -50%) rotate(${-45 + tilt}deg)`;
+  });
+  
+  // Efecto al hacer click
+  document.addEventListener('mousedown', () => {
+    rocketCursor.style.transform = 'translate(-50%, -50%) rotate(-45deg) scale(0.9)';
+    document.querySelector('.rocket-flame').style.height = '45px';
+  });
+  
+  document.addEventListener('mouseup', () => {
+    rocketCursor.style.transform = 'translate(-50%, -50%) rotate(-45deg) scale(1)';
+    document.querySelector('.rocket-flame').style.height = '30px';
+  });
+  
+  // Efectos especiales en elementos interactivos
+  const interactiveElements = document.querySelectorAll('a, button, .project-card, .skill-card, .btn');
+  
+  interactiveElements.forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      rocketCursor.style.width = '50px';
+      rocketCursor.style.height = '50px';
+      rocketCursor.style.filter = 'drop-shadow(0 0 10px rgba(255, 187, 51, 0.8))';
+    });
+    
+    el.addEventListener('mouseleave', () => {
+      rocketCursor.style.width = '40px';
+      rocketCursor.style.height = '40px';
+      rocketCursor.style.filter = 'drop-shadow(0 0 6px rgba(255, 123, 37, 0.7))';
+    });
+  });
+
 // Inicializar galería cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', initGallery);
     
