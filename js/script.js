@@ -469,23 +469,5 @@ document.addEventListener('DOMContentLoaded', initGallery);
 
     
     
-    // Newsletter
-    const newsletterForm = document.querySelector('.newsletter-form');
     
-    if (newsletterForm) {
-        newsletterForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const emailInput = this.querySelector('input[type="email"]');
-            
-            // Validación simple
-            if (!emailInput.value || !emailInput.value.includes('@')) {
-                alert('Por favor ingresa un correo electrónico válido');
-                return;
-            }
-            
-            // Simular suscripción
-            alert(`Gracias por suscribirte con ${emailInput.value}. Te mantendremos informado.`);
-            emailInput.value = '';
-        });
-    }
 });
