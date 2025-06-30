@@ -244,6 +244,35 @@ function initGallery() {
     });
 }
 
+// Efecto adicional para el botón de WhatsApp
+document.addEventListener('DOMContentLoaded', function() {
+  const whatsappBtn = document.querySelector('.whatsapp-float');
+  
+  if (whatsappBtn) {
+    // Mostrar/ocultar botón al hacer scroll
+    let lastScrollTop = 0;
+    window.addEventListener('scroll', function() {
+      const st = window.pageYOffset || document.documentElement.scrollTop;
+      if (st > lastScrollTop) {
+        // Scroll hacia abajo
+        whatsappBtn.style.transform = 'translateY(100px)';
+      } else {
+        // Scroll hacia arriba
+        whatsappBtn.style.transform = 'translateY(0)';
+      }
+      lastScrollTop = st <= 0 ? 0 : st;
+    }, false);
+    
+    // Efecto al pasar el mouse (ya cubierto por CSS pero se puede mejorar)
+    whatsappBtn.addEventListener('mouseenter', () => {
+      whatsappBtn.style.animation = 'none';
+      setTimeout(() => {
+        whatsappBtn.style.animation = 'pulse 2s infinite';
+      }, 100);
+    });
+  }
+});
+
 
 
     const rocketCursor = document.querySelector('.rocket-cursor');
