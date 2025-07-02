@@ -76,31 +76,152 @@
       </section>
 
       <section id="sobre-mi" class="about">
-        <div class="section-header" data-scroll>
-          <h2 class="section-title">Sobre mí</h2>
-          <div class="section-line"></div>
-        </div>
-        <div class="about__content" data-scroll>
-          <p>
-            Soy Cristhian Alfaro, desarrollador web con más de 5 años de
-            experiencia creando soluciones digitales que impulsan el crecimiento
-            de empresas. Como fundador de
-            <span class="text-orange">Alphatec</span>, he liderado proyectos que
-            han transformado la presencia digital de decenas de negocios.
-          </p>
-          <p>
-            Mi enfoque combina diseño atractivo con funcionalidad robusta,
-            asegurando que cada proyecto no solo se vea bien, sino que también
-            cumpla sus objetivos comerciales de manera efectiva.
-          </p>
-          <p>
-            Cuando no estoy codificando, me encuentras explorando nuevas
-            tecnologías, compartiendo conocimiento con la comunidad o
-            disfrutando de un buen café mientras planeo el próximo gran
-            proyecto.
-          </p>
-        </div>
-      </section>
+  <div class="section-header" data-scroll>
+    <h2 class="section-title">Sobre mí</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <!-- Imagen personal con efecto -->
+  <div class="about__photo" data-scroll>
+    <div class="about__overlay">
+      <p>“Me apasiona transformar ideas en soluciones digitales reales.”</p>
+    </div>
+  </div>
+
+  <!-- Texto descriptivo -->
+  <div class="about__content" data-scroll>
+    <p>
+      Soy Cristhian Alfaro, desarrollador web con más de 5 años de experiencia creando
+      soluciones digitales que impulsan el crecimiento de empresas. Como fundador de
+      <span class="text-orange">Alphatec</span>, he liderado proyectos que han transformado la presencia digital de decenas de negocios.
+    </p>
+    <p>
+      Mi enfoque combina diseño atractivo con funcionalidad robusta, asegurando que cada proyecto no solo se vea bien, sino que también cumpla sus objetivos comerciales de manera efectiva.
+    </p>
+    <p>
+      Cuando no estoy codificando, me encuentras explorando nuevas tecnologías, compartiendo conocimiento con la comunidad o disfrutando de un buen café mientras planeo el próximo gran proyecto.
+    </p>
+  </div>
+
+  <!-- Datos personales con íconos -->
+<div class="about__info" data-scroll>
+  <div class="info-box">
+    <i class="fas fa-code"></i>
+    <p><strong>+5 años</strong><br>programando</p>
+  </div>
+  <div class="info-box">
+    <i class="fas fa-globe"></i>
+    <p><strong>+10 proyectos</strong><br>web</p>
+  </div>
+  <div class="info-box">
+    <i class="fas fa-users"></i>
+    <p><strong>Clientes en</strong><br>Perú, EE.UU y más</p>
+  </div>
+  <div class="info-box">
+    <i class="fas fa-mug-hot"></i>
+    <p><strong>Amante</strong><br> del café y la música</p>
+  </div>
+</div>
+
+
+  <!-- Frase destacada -->
+  <blockquote class="about__quote" data-scroll>
+    “Mi misión es que tu proyecto no sea solo bonito, sino útil y que venda ALTOQUE.”
+  </blockquote>
+
+  <!-- CTA -->
+  <div class="about__cta" data-scroll>
+    <a href="https://www.linkedin.com/in/cristhian-alfaro-0930b1351/" target="_blank" class="btn btn-primary">
+      <i class="fab fa-linkedin"></i> Conóceme más
+    </a>
+    <a href="cv-cristhian-alfaro.pdf" download class="btn btn-secondary">
+      <i class="fas fa-file-download"></i> Descargar CV
+    </a>
+  </div>
+</section>
+
+<style>
+.about {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.about__overlay {
+  position: absolute;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+
+.about__info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin: 40px 0;
+}
+
+.info-box {
+  background: #ff7b25;
+  padding: 20px;
+  border-radius: 10px;
+  width: 200px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s;
+}
+
+.info-box:hover {
+  transform: translateY(-5px);
+}
+
+.info-box i {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+.about__timeline {
+  margin: 50px 0;
+  text-align: left;
+}
+
+.timeline-item {
+  margin-bottom: 20px;
+  border-left: 3px solid #f97316;
+  padding-left: 15px;
+}
+
+.timeline-item .year {
+  font-weight: bold;
+  color: #f97316;
+}
+
+.about__quote {
+  font-style: italic;
+  margin: 40px auto;
+  font-size: 18px;
+  max-width: 600px;
+  color: #ff7b25;
+}
+
+.about__cta {
+  margin-top: 30px;
+}
+
+.about__cta .btn {
+  margin: 10px;
+}
+</style>
+
 
      <section id="habilidades" class="skills">
   <div class="section-header" data-scroll>
