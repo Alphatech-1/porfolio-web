@@ -252,13 +252,13 @@ function initGallery() {
     el.addEventListener('mouseenter', () => {
       rocketCursor.style.width = '50px';
       rocketCursor.style.height = '50px';
-      rocketCursor.style.filter = 'drop-shadow(0 0 10px rgba(255, 187, 51, 0.8))';
+      rocketCursor.style.filter = 'drop-shadow(0 0 10px rgba(99, 255, 51, 0.8))';
     });
     
     el.addEventListener('mouseleave', () => {
       rocketCursor.style.width = '40px';
       rocketCursor.style.height = '40px';
-      rocketCursor.style.filter = 'drop-shadow(0 0 6px rgba(255, 123, 37, 0.7))';
+      rocketCursor.style.filter = 'drop-shadow(0 0 6px rgba(99, 255, 51, 0.8))';
     });
   });
 
@@ -277,7 +277,7 @@ document.addEventListener('DOMContentLoaded', initGallery);
                     }
                 },
                 color: {
-                    value: "#ff7b25"
+                    value: "#7EDB00"
                 },
                 shape: {
                     type: "circle",
@@ -312,7 +312,7 @@ document.addEventListener('DOMContentLoaded', initGallery);
                 line_linked: {
                     enable: true,
                     distance: 150,
-                    color: "#ff7b25",
+                    color: "#7EDB00",
                     opacity: 0.3,
                     width: 1
                 },
