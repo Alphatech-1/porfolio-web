@@ -59,29 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Animación de números en estadísticas
-    const statNumbers = document.querySelectorAll('.stat-number');
-    
-    const animateNumbers = () => {
-        statNumbers.forEach(stat => {
-            const target = parseInt(stat.getAttribute('data-count'));
-            const duration = 2000;
-            const step = target / (duration / 16);
-            let current = 0;
-            
-            const updateNumber = () => {
-                current += step;
-                if (current < target) {
-                    stat.textContent = Math.floor(current);
-                    requestAnimationFrame(updateNumber);
-                } else {
-                    stat.textContent = target;
-                }
-            };
-            
-            updateNumber();
-        });
-    };
+
     
     // Animaciones al hacer scroll
     const animateOnScroll = function() {
@@ -102,13 +80,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        // Mostrar/ocultar botón "Volver arriba"
-        const backToTop = document.querySelector('.back-to-top');
-        if (window.scrollY > 300) {
-            backToTop.classList.add('active');
-        } else {
-            backToTop.classList.remove('active');
-        }
     };
     
     // Filtrado de proyectos
@@ -244,34 +215,7 @@ function initGallery() {
     });
 }
 
-// Efecto adicional para el botón de WhatsApp
-document.addEventListener('DOMContentLoaded', function() {
-  const whatsappBtn = document.querySelector('.whatsapp-float');
-  
-  if (whatsappBtn) {
-    // Mostrar/ocultar botón al hacer scroll
-    let lastScrollTop = 0;
-    window.addEventListener('scroll', function() {
-      const st = window.pageYOffset || document.documentElement.scrollTop;
-      if (st > lastScrollTop) {
-        // Scroll hacia abajo
-        whatsappBtn.style.transform = 'translateY(100px)';
-      } else {
-        // Scroll hacia arriba
-        whatsappBtn.style.transform = 'translateY(0)';
-      }
-      lastScrollTop = st <= 0 ? 0 : st;
-    }, false);
-    
-    // Efecto al pasar el mouse (ya cubierto por CSS pero se puede mejorar)
-    whatsappBtn.addEventListener('mouseenter', () => {
-      whatsappBtn.style.animation = 'none';
-      setTimeout(() => {
-        whatsappBtn.style.animation = 'pulse 2s infinite';
-      }, 100);
-    });
-  }
-});
+
 
 
 
