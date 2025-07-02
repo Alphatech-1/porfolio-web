@@ -501,10 +501,25 @@ if (contactForm) {
             submitButton.disabled = false;
         }
     });
-}
-
-
-    
-    
+}    
     
 });
+
+
+ const scrollElements = document.querySelectorAll("[data-scroll]");
+
+  const scrollObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("scroll-show");
+      }
+    });
+  }, { threshold: 0.5 });
+
+  scrollElements.forEach(el => scrollObserver.observe(el));
+
+
+
+  
+
+  
